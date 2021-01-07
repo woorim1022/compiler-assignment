@@ -1,0 +1,5 @@
+int main()
+{
+     int num[ 10 ] = 50.2;
+     char c  = "^%$%^&*sfasf";
+}

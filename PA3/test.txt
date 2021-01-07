@@ -1,0 +1,10 @@
+int main(int woorim, float mary, int hello){
+	float g;
+	int a;
+	for(i; i<=10; i++){
+		a %= 10;
+	}
+	if(c || a)
+	a = 1.1111;
+	return 0;
+}

@@ -1,0 +1,104 @@
+﻿%{
+#include<stdio.h>
+enum tnumber {TEOF, TSPACE, TLINE, TKEYWORD, TID, TCHAR, TSTR, TINT, TFLOAT, TCOM, TOPR, TPS};  
+//전역변수 선언
+int ll = 0, lcount = 0;
+char *keyword[] = {"break", "case", "char", "default", "else", "float", "for", "if", "int", "return", "struct", "switch", "void", "while"}
+//함수 선언
+%}
+ ws      [ \t]+
+ LINE    [\n]
+ KEYWORD break|case|char|default|else|float|for|if|int|return|struct|switch|void|while    //키워드
+ ID      [A-Za-z_][A-Za-z0-9_]*                                                           //식별자
+ CHAR    '\[abfnrtvo'"\?\]'|'[A-Za-z0-9]'|'[!#%\^&\*_\(\)\-\+=~\[\]\|\;:\{\}\,\.<>\/]'    //문자상수
+ STR     "([^\'"]|\[abfhrtvo'"\?])*"                                                      //문자열상수
+ INT     [1-9][0-9]*|0|0[0-7]+|0(x|X)[0-9A-Fa-f]                                          //정수상수
+ FLOAT   [[0-9]+\.[0-9]+|[0-9]+\.[0-9]+(e|E)(\+|\-)?[0-9]+                                //실수상수
+ COM     \/\*([^\*]|\*+[^\*\/])*\*+\/|\/\/[^\n]*\n                                        //주석
+ OPR     \+|\-|\*|\/|\%|\!|\=|\<|\>|\+\=|\-\=|\*\=|\/\=|\%\=|\=\=|\!\=|\<\=|\>\=|\<\<|\>\>|\&\&|\|\||\+\+|\-\-|\,                                                                                  //연산자 
+ PS      [\(\)\{\}\[\]\;\:\.]                                                             //puctuation symbol
+
+ %%
+
+ {ws}      {return (TSPACE)}
+ {LINE}    {ll++; lcount = 0; return (TLINE);}          //공백 \n(엔터) 만나면 ll++ 실행하고 lcount = 0 으로 초기화
+ {KEYWORD} {return (TKEYWORD);}                         //키워드 TKEWORD리턴
+ {ID}      {return (TID);}          //식별자 TID리턴
+ {CHAR}    {return (TCHAR);}          //문자상수 TCHAR리턴
+ {STR}     {return (TSTR);}          //문자열상수 TSTR리턴
+ {INT}     {return (TINT);}          //정수상수 TINT리턴
+ {FLOAT}   {return (TFLOAT);}          //실수상수 TFLOAT리턴
+ {COM}     {return (TCOM);}          //주석 TCOM리턴
+ {OPR}     {return (TOPR);}          //연산자 TOPR리턴
+ {PS}      {return (TPS);}          //puctuation symbol TPS리턴
+
+ %%
+
+
+
+ int main(int argc, char *argv[]){
+
+     enum tnumber tn;
+     if(argc ==1) exit(0);
+     yyin = fopen(argv[1], "r");
+     while((tn = yylex()) != TEOF){
+         switch(tn){
+             case TSPACE:
+                lcount += yyleng;
+                break;
+             case TLINE:
+                break;
+             case TKEYWORD:
+                lcount += yyleng;
+                printf("-15s -> %18s, %10d, %5d, %5d\n", yytext, Keyword, 0, ll, lcount);      //토큰이름, 토큰유형, 토근값, 줄, 위치
+                break;
+             case TID:
+                lcount += yyleng;
+                printf("-15s -> %18s, %10d, %5d, %5d\n", yytext, Identifier, 0, ll, lcount);
+                break;
+             case TCHAR:
+                lcount += yyleng; 
+                printf("-15s -> %18s, %10d, %5d, %5d\n", yytext, Character, yytext, ll, lcount);
+                break;
+             case TSTR:
+                lcount += yyleng;
+                printf("-15s -> %18s, %10d, %5d, %5d\n", yytext, String, 0, ll, lcount);
+                break;
+             case TINT:
+                lcount += yyleng;
+                printf("-15s -> %18s, %10d, %5d, %5d\n", yytext, Integer, atoi(yytext);, ll, lcount);
+                break;
+             case TFLOAT:
+                lcount += yyleng;
+                printf("-15s -> %18s, %10.2d, %5d, %5d\n", yytext, Float, atof(yytext);, ll, lcount);
+                break;
+             case TCOM:
+                lcount += yyleng;
+                printf("-15s -> %18s, %10d, %5d, %5d\n", yytext, Comment, 0, ll, lcount);
+                break;
+             case TOPR:
+                lcount += yyleng;
+                printf("-15s -> %18s, %10d, %5d, %5d\n", yytext, Operation, 0, ll, lcount);
+                break;
+             case TPS:
+                lcount += yyleng;
+                printf("-15s -> %18s, %10d, %5d, %5d\n", Punctuatoion Symbol, tn, 0, ll, lcount);
+                break;
+             default:
+                lcount += yyleng;
+     
+                break;
+
+
+
+         }
+
+     } 
+
+ }
+
+
+
+
+
+

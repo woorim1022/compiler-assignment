@@ -1,0 +1,63 @@
+{TOKEN} 	{return yytext[0];}
+break		{return BREAK;}
+case		{return CASE;}
+char		{return CHAR;}
+default		{return DEFAULT;}
+else		{return ELSE;}
+float		{return FLOAT;}
+for 		{return FOR;}
+if		{return IF;}
+int		{return INT;}
+return		{return RETURN;}
+STRUCT		{return STRUCT;}
+switch		{return SWITCH;}
+void 		{return VOID;}
+while		{return WHILE;}
+
+
+{INTEGER}	{yylval.ival = atoi(yytext);	return (INTEGER);}
+{OCTAL}		{yylval.ival = octToDecimal(yytext);	return (INTEGER);}
+{HEXA}		{yylval.ival = hexToDecimal(yytext);	return (INTEGER);}
+{FLOAT}		{yylval.rval = atof(yytext); return (REAL);}
+{ID}		{return (ID);}
+{CHARACTER}	{return (TCHARACTER);}
+
+
+{STRING}	{return (STRING);}
+
+
+
+
+{aaa} 		{return (aaa);}
+{sss}		{return (sss);}
+{mmm}		{return (mmm);}
+{ddd}		{return (ddd);}
+{rrr}		{return (rrr);}
+{lt}		{return (lt);}
+{gt}		{return (gt);}
+{ee}		{return (ee);}
+{ne}		{return (ne);}
+{le}		{return (le);}
+{ge}		{return (ge);}
+{aa}		{return (aa);}
+{ss}		{return (ss);}
+{app}		{return (app);}
+{aapp}		{return (aapp);}
+{sapp}		{return (sapp);}
+{mapp}		{return (mapp);}
+{dapp}		{return (dapp);}
+{rapp}		{return (rapp);}
+
+{semicolon}       	{return yytext[0];}
+{coma}		       	{return yytext[0];}
+{largeopen}       	{return yytext[0];}
+{largeclose}       	{return yytext[0];}
+{smallopen}       	{return yytext[0];}
+{smallclose}       	{return yytext[0];}
+{middleopen}       	{return yytext[0];}
+{middleclose}       	{return yytext[0];}
+{colon}       		{return yytext[0];}
+{dot}       		{return yytext[0];}
+{or}       		{return yytext[0];}
+{and}       		{return yytext[0];}
+
